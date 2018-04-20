@@ -5,12 +5,20 @@
   <title>Calculator</title>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
   <script src="arithmetic.js"></script>
+  <style>
+    input.ng-invalid {
+        background-color:pink;
+    }
+    input.ng-valid {
+        background-color:lightgreen;
+    }
+</style>
 </head>
 <body ng-app="application" ng-controller="controller">
-<form>
+<form name="exprForm" ng-submit="submitForm(exprForm.$valid)" novalidate>
   Arithmatic expression:
-  <Input type="text" name="expression" ng-model="expression"/>
-  <Input type="submit" ng-click="myFunction()"/>
+  <Input type="text" ng-model="expression" required ng-pattern="exprPattern"/>
+  <Input type="submit" ng-click="myFunction()" ng-disabled="exprForm.$invalid"/>
 </form>
 
 <form>
@@ -20,12 +28,19 @@
 </form>
 
 <h1>{{myVar}}</h1>
+<h2>{{value3}}</h2>
+<h3>{{value4}}</h3>
 
 <table>
   <tr>
     <td>Request</td>
     <td>Status</td>
     <td>Response</td>
+  </tr>
+  <tr ng-repeat="req in requests">
+    <td>{{req.request}}</td>
+    <td>{{req.status}}</td>
+    <td>{{req.answer}}</td>
   </tr>
 </table>
 
