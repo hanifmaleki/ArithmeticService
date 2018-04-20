@@ -19,7 +19,7 @@ public class RequestController {
 
      int  n = rand.nextInt(20) + 1;
      response.setAnswer(n);
-     response.setResponse("Processed in first Server "+ n);
+     response.setResponse("Processed "+operand1+operator+operand2+" "+ n);
      //n = rand.nextInt(20000) ;
      try {
        Thread.sleep(n*1000);
