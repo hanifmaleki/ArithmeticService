@@ -11,10 +11,16 @@ public class Request {
 
   enum Operator {Add, Sub, Mult, Divide  }
 
+  private Integer id;
+
+  private Integer clientId;
+
   private Integer operand1;
 
   private Integer operand2;
 
   private Operator operator;
+
+  private Integer answer;
 
 }
