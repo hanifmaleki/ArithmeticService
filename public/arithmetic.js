@@ -1,5 +1,12 @@
-var app = angular.module('application', []);
+var env = {};
 
+// Import variables if present (from env.js)
+if(window){
+  Object.assign(env, window.__env);
+}
+
+var app = angular.module('application', []);
+app.constant('__env', env);
 app.controller('controller', function($scope, $http) {
     $scope.requests = [];
     $scope.exprPattern = /^\s*\d+\s*[-\/\*\+]\s*\d+\s*$/;
@@ -9,13 +16,12 @@ app.controller('controller', function($scope, $http) {
         $scope.value3 = parseInt(res[0]);
         $scope.value4 = parseInt(res[1]);
         var request = {request:ex, status:"sent", answer:"NaN"};
-        $http.get("http://localhost:8080/add",  {
+        $http.get(__env.apiUrl,  {
                                                    params: { operator: "test",
                                                    operand1: parseInt(res[0]),
                                                    operand2: parseInt(res[1])}
                                                })
             .then(function(response) {
-                //$scope.myVar = response.data;
                 request.status="processed at server"
             });
        $scope.requests.push(request);
