@@ -22,10 +22,10 @@
   <Input type="submit" ng-click="myFunction()" ng-disabled="exprForm.$invalid"/>
 </form>
 
-<form>
+<form name="batchForm" ng-submit="submitForm(batchForm.$valid)" novalidate>
   Batch random request:
-  <Input type="text" name="batch"/>
-  <Input type="submit" value="Send"/>
+  <Input type="number" ng-model="batchSize" ng-max="20" ng-min="2" required/>
+  <Input type="submit" ng-click="sendBatch()" ng-disabled="batchForm.$invalid"/>
 </form>
 
 <h1>{{myVar}}</h1>
