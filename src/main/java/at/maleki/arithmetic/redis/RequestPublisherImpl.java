@@ -28,8 +28,6 @@ public class RequestPublisherImpl implements RequestPublisher {
       log.debug("Pushing "+jsonString);
     } catch (JsonProcessingException e) {
       e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
     }
 
     redisTemplate.convertAndSend(topic.getTopic(), jsonString);

@@ -100,15 +100,15 @@ app.factory('service', function() {
 function sendRequest(scope, http, ex, operator, operand1, operand2){
      var request = {request:ex, status:"sent", answer:NaN, clientId: scope.requestId};
              http.get(__env.apiUrl+"/add",  {
-                                                        params: { operator:operator,
-                                                        operand1: operand1,
-                                                        operand2: operand2,
-                                                        clientNumber: scope.clientNumber,
-                                                        clientId: scope.requestId}
+                                        params: { operator:operator,
+                                        operand1: operand1,
+                                        operand2: operand2,
+                                        clientNumber: scope.clientNumber,
+                                        clientId: scope.requestId}
                                                     })
                  .then(function(response) {
                      request.status="processed at server";
-                     request.answer=response.data;
+                     //request.answer=response.data;
                  });
             scope.requestId++;
             scope.requests.push(request);

@@ -1,53 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Calculator</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-  <script src="env.js"></script>
-  <script src="arithmetic.js"></script>
-  <style>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="env.js"></script>
+    <script src="arithmetic.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+
     input.ng-invalid {
         background-color:pink;
     }
     input.ng-valid {
         background-color:lightgreen;
     }
-</style>
+
+    </style>
 </head>
-<body ng-app="application" >
-<div ng-controller="controller">
-<form name="exprForm" ng-submit="submitForm(exprForm.$valid)" novalidate>
-  Arithmatic expression:
-  <Input type="text" ng-model="expression" required ng-pattern="exprPattern"/>
-  <Input type="submit" ng-click="myFunction()" ng-disabled="exprForm.$invalid"/>
-</form>
+<body ng-app="application">
 
-<form name="batchForm" ng-submit="submitForm(batchForm.$valid)" novalidate>
-  Batch random request:
-  <Input type="number" ng-model="batchSize" ng-max="20" ng-min="2" required/>
-  <Input type="submit" ng-click="sendBatch()" ng-disabled="batchForm.$invalid"/>
-</form>
-
-<button type="button" ng-click="pullResults()">Click Me!</button>
-
-<!--h1>{{myVar}}</h1>
-<h2>{{value3}}</h2>
-<h3>{{value4}}</h3-->
-
-<table>
-  <tr>
-    <td>Request</td>
-    <td>Status</td>
-    <td>Response</td>
-  </tr>
-  <tr ng-repeat="req in requests">
-    <td>{{req.request}}</td>
-    <td>{{req.status}}</td>
-    <td>{{req.answer}}</td>
-  </tr>
-</table>
+<div class="w3-container w3-teal">
+    <h1>Calculator</h1>
 </div>
+<div ng-controller="controller" class="w3-container">
+    <div class="w3-container w3-teal">
+    <form name="exprForm" ng-submit="submitForm(exprForm.$valid)" novalidate>
+        Arithmatic expression:
+        <Input type="text" ng-model="expression" required ng-pattern="exprPattern"/>
+        <Input type="submit" ng-click="myFunction()" ng-disabled="exprForm.$invalid"/>
+    </form>
+    </div>
+
+    <div class="w3-container w3-teal">
+    <form name="batchForm" ng-submit="submitForm(batchForm.$valid)" novalidate>
+        Batch random request:
+        <Input type="number" ng-model="batchSize" ng-max="20" ng-min="2" required/>
+        <Input type="submit" ng-click="sendBatch()" ng-disabled="batchForm.$invalid"/>
+    </form>
+    </div>
+
+
+    <!--h1>{{myVar}}</h1>
+    <h2>{{value3}}</h2>
+    <h3>{{value4}}</h3-->
+
+    <table class="w3-table-all" style="height:100%">
+        <tr>
+            <th>Request</th>
+            <th>Status</th>
+            <th>Response</th>
+        </tr>
+        <tr ng-repeat="req in requests">
+            <td>{{req.request}}</td>
+            <td>{{req.status}}</td>
+            <td>{{req.answer}}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="w3-container w3-teal">
+    <p>Designed by: Hanif Maleki</p>
+    <p>hanif.maleki@gmail.com</p>
+</div>
+
 <div ng-controller="controller2"></div>
 
 </body>
