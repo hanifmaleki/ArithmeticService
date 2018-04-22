@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <file>arithmetic.log</file>
+    <append>false</append>
+    <encoder>
+      <pattern>
+        %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+      </pattern>
+    </encoder>
+  </appender>
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>
+        %d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n
+      </pattern>
+    </encoder>
+  </appender>
+
+  <root level="debug">
+    <appender-ref ref="STDOUT"/>
+
+  </root>
+
+  <logger name="at.maleki.arithmetic">
+    <level value="debug"/>
+    <appender-ref ref="FILE"/>
+  </logger>
+
+
+  <logger name="org.springframework">
+    <level value="error"/>
+  </logger>
+
+  <logger name="org.spring">
+    <level value="error"/>
+  </logger>
+
+  <logger name="org.apache">
+    <level value="error"/>
+  </logger>
+
+  <logger name="org.springframework.boot.web">
+    <level value="error"/>
+  </logger>
+
+  <logger name="org.hibernate">
+    <level value="error"/>
+  </logger>
+
+</configuration>

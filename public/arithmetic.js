@@ -10,7 +10,7 @@ app.constant('__env', env);
 app.controller('controller', function($scope, $http) {
     $scope.requests = [];
     $scope.exprPattern = /^\s*\d+\s*[-\/\*\+]\s*\d+\s*$/;
-    $scope.clientId = Math.floor((Math.random() * 1000) + 1);
+    $scope.clientNumber = Math.floor((Math.random() * 1000) + 1);
     $scope.requestId = 1;
     $scope.batchSize = 5 ;
     $scope.myFunction = function() {
@@ -19,7 +19,7 @@ app.controller('controller', function($scope, $http) {
         var op = ex.split(/\s*\d+s*/);
         //$scope.value3 = op[1];
         //$scope.value4 = op;
-        sendRequest($scope, $http, ex, op[0].trim(), res[0], res[1]);
+        sendRequest($scope, $http, ex, op[1].trim(), res[0], res[1]);
        $scope.expression = "";
     }
 
@@ -47,20 +47,44 @@ app.controller('controller', function($scope, $http) {
             sendRequest($scope, $http, ex, op, n1, n2);
         }
     }
+
+    $scope.pullResults = function(){
+      var pullRequests=[];
+      var params = "?clientNumber="+$scope.clientNumber ;
+      for(var i = 0; i < $scope.requests.length; i++){
+        var request = $scope.requests[i];
+        if(isNaN(request.answer)){
+          //var pullRequest = {clientNumber: $scope.clientNumber, clientId: request.clientId}
+          //pullRequests.push({id: request.clientId});
+          pullRequests.push(request.clientId);
+          params+="&id="+request.clientId ;
+        }
+      }
+      $scope.value3 = pullRequests.length;
+      if(pullRequests.length>0){
+        //$http.get(__env.apiUrl+"/answers",  {params: {clientNumber: $scope.clientNumber, ids :JSON.stringify(pullRequests)}})
+        //$http.get(__env.apiUrl+"/answers",  {params: {clientNumber: $scope.clientNumber, "ids[]" :pullRequests}})
+        $http.get(__env.apiUrl+"/answers"+ params)
+               .then(function(response) {
+                    $scope.myVar = response.data;
+               });
+      }
+    }
 });
 
 
 function sendRequest(scope, http, ex, operator, operand1, operand2){
-     var request = {request:ex, status:"sent", answer:"NaN"};
-             http.get(__env.apiUrl,  {
-                                                        params: { operator,
+     var request = {request:ex, status:"sent", answer:NaN, clientId: scope.requestId};
+             http.get(__env.apiUrl+"/add",  {
+                                                        params: { operator:operator,
                                                         operand1: operand1,
                                                         operand2: operand2,
-                                                        clientId: scope.clientId,
-                                                        id: scope.requestId}
+                                                        clientNumber: scope.clientNumber,
+                                                        clientId: scope.requestId}
                                                     })
                  .then(function(response) {
-                     request.status="processed at server"
+                     request.status="processed at server";
+                     request.answer=response.data;
                  });
             scope.requestId++;
             scope.requests.push(request);

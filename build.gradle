@@ -1,7 +1,7 @@
-group 'at.maleki.sample'
-version '1.0-SNAPSHOT'
-
 buildscript {
+    ext {
+        springBootVersion = '2.0.1.RELEASE'
+    }
     repositories {
         mavenCentral()
     }
@@ -20,26 +20,19 @@ bootJar {
     version =  '0.1.0'
 }
 
-repositories {
-    mavenCentral()
-}
-
+group 'at.maleki.arithmetic'
+version '1.0-SNAPSHOT'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web")
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-}
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
     compile('org.springframework.boot:spring-boot-starter-data-redis')
-    compile('org.springframework.boot:spring-boot-starter-jersey')
+    compile('org.springframework.boot:spring-boot-starter-web')
     compileOnly('org.projectlombok:lombok')
     testCompile('org.springframework.boot:spring-boot-starter-test')
+
 }
