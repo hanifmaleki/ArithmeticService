@@ -7,10 +7,10 @@ if(window){
 
 var app = angular.module('application', []);
 app.constant('__env', env);
-app.controller('controller', function($scope, $http) {
-    $scope.requests = [];
+app.controller('controller', function(service, $scope, $http) {
+    $scope.requests = service.getRequests();
     $scope.exprPattern = /^\s*\d+\s*[-\/\*\+]\s*\d+\s*$/;
-    $scope.clientNumber = Math.floor((Math.random() * 1000) + 1);
+    //$scope.clientNumber = Math.floor((Math.random() * 1000) + 1);
     $scope.requestId = 1;
     $scope.batchSize = 5 ;
     $scope.myFunction = function() {
@@ -49,29 +49,53 @@ app.controller('controller', function($scope, $http) {
     }
 
     $scope.pullResults = function(){
-      var pullRequests=[];
-      var params = "?clientNumber="+$scope.clientNumber ;
-      for(var i = 0; i < $scope.requests.length; i++){
-        var request = $scope.requests[i];
-        if(isNaN(request.answer)){
-          //var pullRequest = {clientNumber: $scope.clientNumber, clientId: request.clientId}
-          //pullRequests.push({id: request.clientId});
-          pullRequests.push(request.clientId);
-          params+="&id="+request.clientId ;
-        }
-      }
-      $scope.value3 = pullRequests.length;
-      if(pullRequests.length>0){
-        //$http.get(__env.apiUrl+"/answers",  {params: {clientNumber: $scope.clientNumber, ids :JSON.stringify(pullRequests)}})
-        //$http.get(__env.apiUrl+"/answers",  {params: {clientNumber: $scope.clientNumber, "ids[]" :pullRequests}})
-        $http.get(__env.apiUrl+"/answers"+ params)
-               .then(function(response) {
-                    $scope.myVar = response.data;
-               });
-      }
+      sendPullResults(service, $scope, $http)
     }
 });
 
+app.controller('controller2', function($scope, $interval,$http, service) {
+  $interval(function () {
+   var params = "?clientNumber=";
+   var requests = service.getRequests();
+   var pullRequests = [];
+   $scope.cont2=service.getRequests().length;
+   for(var i = 0; i < requests.length; i++){
+     var request = requests[i];
+     if((isNaN(request.answer)&&(request.status.includes("processed")))){
+       pullRequests.push(request.clientId);
+       params+="&id="+request.clientId ;
+     }
+   }
+   if(pullRequests.length>0){
+     $http.get(__env.apiUrl+"/answers"+ params)
+            .then(function(response) {
+                 var receivedRequests = response.data;
+                 for(var i = 0; i < receivedRequests.length;i++){
+                   for(var j=0; j< requests.length; j++){
+                     if(receivedRequests[i].clientId==requests[j].clientId){
+                       requests[j].answer = receivedRequests[i].answer;
+                       requests[j].status = "answered";
+                     }
+                   }
+                 }
+            });
+   }
+   }, 20000);
+});
+
+app.factory('service', function() {
+        var requests = [];
+        var clientNumber = Math.floor((Math.random() * 1000) + 1);
+        requests.getRequests= function(){
+          return requests;
+        }
+
+        clientNumber.get = function(){
+          return clientNumber ;
+        }
+        return requests;
+
+});
 
 function sendRequest(scope, http, ex, operator, operand1, operand2){
      var request = {request:ex, status:"sent", answer:NaN, clientId: scope.requestId};
@@ -89,20 +113,4 @@ function sendRequest(scope, http, ex, operator, operand1, operand2){
             scope.requestId++;
             scope.requests.push(request);
 }
-
-
-/*app.directive('exprValid', function() {
-  return {
-    require: 'ngModel',
-    link: function(scope, element, attr, controller) {
-      function myValidation(value) {
-        var re = /^\s*\d+\s*[-\/\*\+]\s*\d+\s*$/;
-        scope.checked=!re.test(value);
-        controller.$setValidity('expr', re.test(value));
-        return re.test(value);
-      }
-      controller.$parsers.push(myValidation);
-    }
-  };
-});*/
 

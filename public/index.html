@@ -15,7 +15,8 @@
     }
 </style>
 </head>
-<body ng-app="application" ng-controller="controller">
+<body ng-app="application" >
+<div ng-controller="controller">
 <form name="exprForm" ng-submit="submitForm(exprForm.$valid)" novalidate>
   Arithmatic expression:
   <Input type="text" ng-model="expression" required ng-pattern="exprPattern"/>
@@ -30,9 +31,9 @@
 
 <button type="button" ng-click="pullResults()">Click Me!</button>
 
-<h1>{{myVar}}</h1>
+<!--h1>{{myVar}}</h1>
 <h2>{{value3}}</h2>
-<h3>{{value4}}</h3>
+<h3>{{value4}}</h3-->
 
 <table>
   <tr>
@@ -46,7 +47,8 @@
     <td>{{req.answer}}</td>
   </tr>
 </table>
-
+</div>
+<div ng-controller="controller2"></div>
 
 </body>
 </html>
