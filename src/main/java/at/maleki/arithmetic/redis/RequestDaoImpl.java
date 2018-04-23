@@ -7,7 +7,7 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-/** Created by e1528895 on 4/21/18. */
+/** Created by Hanif Naleki on 4/21/18. The Redis implementation of @{@link RequestDao} */
 @Component
 // @Repository
 public class RequestDaoImpl implements RequestDao {

@@ -10,32 +10,31 @@ import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.stereotype.Service;
 
-/** Created by e1528895 on 4/21/18. */
+/**
+ * Created by Hanif Maleki on 4/21/18. The Redis configuration for creating a subscriber of @{@link
+ * Request} It uses an instance of @{@link RequestSubscriber}
+ */
 @Service
 @Slf4j
 public class RequestSubscriberConfigurator implements MessageListener {
 
-  @Autowired
-  ObjectMapper objectMapper ;
+  @Autowired ObjectMapper objectMapper;
 
-  @Autowired
-  RequestSubscriber messagePubisher;
+  @Autowired RequestSubscriber messagePubisher;
 
   @Override
   public void onMessage(Message message, byte[] pattern) {
     String jsonString = new String(message.getBody());
-    jsonString =jsonString.substring(1,jsonString.length()-1);
-    jsonString= jsonString.replace("\\", "");
+    jsonString = jsonString.substring(1, jsonString.length() - 1);
+    jsonString = jsonString.replace("\\", "");
     log.debug("Message received: " + jsonString);
     try {
       Request request = objectMapper.readValue(jsonString, Request.class);
-      log.debug("Converted request is "+ request);
+      log.debug("Converted request is " + request);
       messagePubisher.requestReceived(request);
     } catch (IOException e) {
       e.printStackTrace();
       log.error(e.getMessage());
     }
-
   }
-
 }
