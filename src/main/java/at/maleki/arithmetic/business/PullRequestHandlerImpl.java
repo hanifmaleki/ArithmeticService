@@ -11,24 +11,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by e1528895 on 4/22/18.
+ * Created by e1528895 on 4/22/18. The implementation of @{@link PullRequestHandler} Fetch answers
+ * from the database and create a list of ready answers
  */
 @Component
 @Slf4j
-public class PullRequestHandlerImpl implements PullRequestHandler{
-  @Autowired
-  RequestDao requestDao ;
+public class PullRequestHandlerImpl implements PullRequestHandler {
+  @Autowired RequestDao requestDao;
 
   @Override
   public List<Request> fetchAvailableAnswers(List<PullRequest> pullRequests) {
     List<Request> returnedList = new ArrayList<>();
     log.debug("Processing pull requests consisting of " + pullRequests.size());
-    for(PullRequest pullRequest: pullRequests){
-      Request request = requestDao
-          .getRequestBy(pullRequest.getClientNumber(), pullRequest.getClientId());
-      if(request.getAnswer()!=null){
+    for (PullRequest pullRequest : pullRequests) {
+      Request request =
+          requestDao.getRequestBy(pullRequest.getClientNumber(), pullRequest.getClientId());
+      if (request.getAnswer() != null) {
         request.setReturnedDate(new Date());
-        log.debug("request is found" + pullRequest + " with answer "+ request.getAnswer());
+        log.debug("request is found" + pullRequest + " with answer " + request.getAnswer());
         requestDao.update(request);
         returnedList.add(request);
       }

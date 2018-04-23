@@ -12,39 +12,41 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
- * Created by e1528895 on 4/21/18.
+ * Created by e1528895 on 4/21/18. This class create Redis template and establish
+ * MessageListenerContainer
  */
 @Configuration
-@ComponentScan//("at.maleki.arithmetic")
+@ComponentScan // ("at.maleki.arithmetic")
 public class RedisConfig {
 
-  //@Bean
-  //JedisConnectionFactory jedisConnectionFactory() {
+  // @Bean
+  // JedisConnectionFactory jedisConnectionFactory() {
   //  return new JedisConnectionFactory();
-  //}
+  // }
 
   @Bean
   public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
     final RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
-    //template.setConnectionFactory(jedisConnectionFactory());
+    // template.setConnectionFactory(jedisConnectionFactory());
     template.setConnectionFactory(connectionFactory);
     template.setKeySerializer(new StringRedisSerializer());
     template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-    //return redisTemplate;
-    //template.setValueSerializer(new GenericToStringSerializer<Object>(Object.class));
+    // return redisTemplate;
+    // template.setValueSerializer(new GenericToStringSerializer<Object>(Object.class));
     return template;
   }
 
-
-
   @Bean
-  MessageListenerAdapter messageListener(RequestSubscriberConfigurator requestSubscriberConfigurator) {
-    //return new MessageListenerAdapter(new RequestSubscriberConfigurator());
+  MessageListenerAdapter messageListener(
+      RequestSubscriberConfigurator requestSubscriberConfigurator) {
+    // return new MessageListenerAdapter(new RequestSubscriberConfigurator());
     return new MessageListenerAdapter(requestSubscriberConfigurator);
   }
 
   @Bean
-  RedisMessageListenerContainer redisContainer(RedisConnectionFactory connectionFactory, RequestSubscriberConfigurator requestSubscriberConfigurator) {
+  RedisMessageListenerContainer redisContainer(
+      RedisConnectionFactory connectionFactory,
+      RequestSubscriberConfigurator requestSubscriberConfigurator) {
     final RedisMessageListenerContainer container = new RedisMessageListenerContainer();
     container.setConnectionFactory(connectionFactory);
     container.addMessageListener(messageListener(requestSubscriberConfigurator), requestTopic());

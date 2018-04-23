@@ -7,22 +7,21 @@ if(window){
 
 var app = angular.module('application', []);
 app.constant('__env', env);
+//Initialize variables of controller as well as regular expression
 app.controller('controller', function(service, $scope, $http) {
     $scope.requests = service.getRequests();
     $scope.exprPattern = /^\s*\d+\s*[-\/\*\+]\s*\d+\s*$/;
-    //$scope.clientNumber = Math.floor((Math.random() * 1000) + 1);
     $scope.requestId = 1;
     $scope.batchSize = 5 ;
     $scope.myFunction = function() {
         var ex = $scope.expression + '';
         res = ex.split(/[+*-\/]/);
         var op = ex.split(/\s*\d+s*/);
-        //$scope.value3 = op[1];
-        //$scope.value4 = op;
         sendRequest($scope, $http, ex, op[1].trim(), res[0], res[1]);
        $scope.expression = "";
     }
 
+//The function for creating some random requests
     $scope.sendBatch = function(){
         for(var i=0; i < $scope.batchSize; i++){
             var op = "";
@@ -53,6 +52,7 @@ app.controller('controller', function(service, $scope, $http) {
     }
 });
 
+//This function is called periodically and pull answers from the server
 app.controller('controller2', function($scope, $interval,$http, service) {
   $interval(function () {
    var params = "?clientNumber=";
@@ -66,6 +66,7 @@ app.controller('controller2', function($scope, $interval,$http, service) {
        params+="&id="+request.clientId ;
      }
    }
+   //Checking whether we have some requests without answer
    if(pullRequests.length>0){
      $http.get(__env.apiUrl+"/answers"+ params)
             .then(function(response) {
@@ -83,6 +84,7 @@ app.controller('controller2', function($scope, $interval,$http, service) {
    }, 20000);
 });
 
+//Initialize variables which are visible in every controller
 app.factory('service', function() {
         var requests = [];
         var clientNumber = Math.floor((Math.random() * 1000) + 1);
@@ -97,6 +99,7 @@ app.factory('service', function() {
 
 });
 
+//This function send request through a get method to the server
 function sendRequest(scope, http, ex, operator, operand1, operand2){
      var request = {request:ex, status:"sent to server", answer:NaN, clientId: scope.requestId};
              http.get(__env.apiUrl+"/add",  {

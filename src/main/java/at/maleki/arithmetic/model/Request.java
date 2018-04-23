@@ -4,14 +4,16 @@ import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
 
-/**
- * Created by e1528895 on 4/18/18.
- */
-
+/** Created by e1528895 on 4/18/18. The model of the arithmetic requests */
 @Data
-public class Request implements Serializable{
+public class Request implements Serializable {
 
-  public enum Operator {Add, Sub, Mult, Divide  }
+  public enum Operator {
+    Add,
+    Sub,
+    Mult,
+    Divide
+  }
 
   private Integer id;
 
@@ -32,5 +34,4 @@ public class Request implements Serializable{
   private Date processedDate;
 
   private Date returnedDate;
-
 }

@@ -1,3 +1,4 @@
+//This class includes configs which are needed by the javascript code
 (function (window) {
   window.__env = window.__env || {};
 

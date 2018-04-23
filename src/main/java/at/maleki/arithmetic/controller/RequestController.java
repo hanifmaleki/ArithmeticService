@@ -17,23 +17,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Created by e1528895 on 4/18/18. */
+/** Created by e1528895 on 4/18/18. The main controller of the application */
 @CrossOrigin
 @RestController
 @Slf4j
 public class RequestController {
 
-  @Autowired
-  BeanFactory beanFactory;
+  @Autowired BeanFactory beanFactory;
 
-  @Autowired
-  PullRequestHandler pullRequestHandler;
+  @Autowired PullRequestHandler pullRequestHandler;
 
   @RequestMapping("/add")
   Response addRequest(
       String operator, Integer operand1, Integer operand2, Integer clientNumber, Integer clientId) {
-    log.debug("Request is received with  operator"+ operator+" operand1 "+operand1+" operand2 "
-        +operand2+" clientNumber "+clientNumber+" clientId "+clientId);
+    log.debug(
+        "Request is received with  operator"
+            + operator
+            + " operand1 "
+            + operand1
+            + " operand2 "
+            + operand2
+            + " clientNumber "
+            + clientNumber
+            + " clientId "
+            + clientId);
     Request request = new Request();
     request.setClientNumber(clientNumber);
     request.setClientId(clientId);
@@ -64,11 +71,15 @@ public class RequestController {
   }
 
   @RequestMapping("/answers")
-  List<Request> getNewAnswers(Integer clientNumber,
-      @RequestParam(value="id") ArrayList<Integer> clientIds){
-    log.debug("Receiving a pull requests for client "+clientNumber +" and with size "+clientIds.size());
+  List<Request> getNewAnswers(
+      Integer clientNumber, @RequestParam(value = "id") ArrayList<Integer> clientIds) {
+    log.debug(
+        "Receiving a pull requests for client "
+            + clientNumber
+            + " and with size "
+            + clientIds.size());
     List<PullRequest> pullRequests = new ArrayList<>();
-    for(Integer id: clientIds){
+    for (Integer id : clientIds) {
       PullRequest pullRequest = new PullRequest();
       pullRequest.setClientNumber(clientNumber);
       pullRequest.setClientId(id);
@@ -76,7 +87,6 @@ public class RequestController {
     }
 
     List<Request> requests = pullRequestHandler.fetchAvailableAnswers(pullRequests);
-    return requests ;
+    return requests;
   }
-
 }

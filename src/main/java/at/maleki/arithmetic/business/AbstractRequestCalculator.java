@@ -7,14 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * Created by e1528895 on 4/22/18.
- * An abstract implementation of RequestCalculator
- * which update the obtained request in database
+ * Created by e1528895 on 4/22/18. An abstract implementation of RequestCalculator which update the
+ * obtained request in database
  */
 @Slf4j
-public abstract class AbstractRequestCalculator implements RequestCalculator{
-  @Autowired
-  RequestDao requestDao ;
+public abstract class AbstractRequestCalculator implements RequestCalculator {
+  @Autowired RequestDao requestDao;
 
   @Override
   public void calculateAnswer(Request request) {
@@ -25,5 +23,5 @@ public abstract class AbstractRequestCalculator implements RequestCalculator{
     requestDao.update(request);
   }
 
-  abstract Float calculate(Request request) ;
+  abstract Float calculate(Request request);
 }

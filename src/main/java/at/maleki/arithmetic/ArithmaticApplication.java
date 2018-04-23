@@ -5,7 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Created by e1528895 on 4/18/18.
+ * Created by Hanif Maleki on 4/18/18.
+ * The main class of the application executing SpringBoot runner
  */
 @SpringBootApplication
 @Slf4j
