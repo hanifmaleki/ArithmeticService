@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RequestController {
 
   @Autowired
-  RequestProcessor requestProcessor;
+  BeanFactory beanFactory;
 
   @Autowired
   PullRequestHandler pullRequestHandler;
@@ -55,6 +56,8 @@ public class RequestController {
     }
     request.setOperator(op);
     request.setReceiveDate(new Date());
+
+    RequestProcessor requestProcessor = beanFactory.getBean(RequestProcessor.class);
 
     Response response = requestProcessor.processRequest(request);
     return response;

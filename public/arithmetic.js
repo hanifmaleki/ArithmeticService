@@ -61,7 +61,7 @@ app.controller('controller2', function($scope, $interval,$http, service) {
    $scope.cont2=service.getRequests().length;
    for(var i = 0; i < requests.length; i++){
      var request = requests[i];
-     if((isNaN(request.answer)&&(request.status.includes("processed")))){
+     if((isNaN(request.answer)&&(request.status.includes("process")))){
        pullRequests.push(request.clientId);
        params+="&id="+request.clientId ;
      }
@@ -74,7 +74,7 @@ app.controller('controller2', function($scope, $interval,$http, service) {
                    for(var j=0; j< requests.length; j++){
                      if(receivedRequests[i].clientId==requests[j].clientId){
                        requests[j].answer = receivedRequests[i].answer;
-                       requests[j].status = "answered";
+                       requests[j].status = "answer received from server";
                      }
                    }
                  }
@@ -98,7 +98,7 @@ app.factory('service', function() {
 });
 
 function sendRequest(scope, http, ex, operator, operand1, operand2){
-     var request = {request:ex, status:"sent", answer:NaN, clientId: scope.requestId};
+     var request = {request:ex, status:"sent to server", answer:NaN, clientId: scope.requestId};
              http.get(__env.apiUrl+"/add",  {
                                         params: { operator:operator,
                                         operand1: operand1,
@@ -107,7 +107,7 @@ function sendRequest(scope, http, ex, operator, operand1, operand2){
                                         clientId: scope.requestId}
                                                     })
                  .then(function(response) {
-                     request.status="processed at server";
+                     request.status="processing at server";
                      //request.answer=response.data;
                  });
             scope.requestId++;

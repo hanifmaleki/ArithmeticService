@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Calculator</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-    <script src="env.js"></script>
-    <script src="arithmetic.js"></script>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <style>
-
+  <meta charset="UTF-8">
+  <title>Calculator</title>
+  <script src="angular.min.js"></script>
+  <!--https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/-->
+  <script src="env.js"></script>
+  <script src="arithmetic.js"></script>
+  <link rel="stylesheet" href="w3.css"><!--https://www.w3schools.com/w3css/4/-->
+  <style>
     input.ng-invalid {
         background-color:pink;
     }
@@ -16,55 +16,76 @@
         background-color:lightgreen;
     }
 
-    </style>
+
+
+
+  </style>
 </head>
 <body ng-app="application">
 
 <div class="w3-container w3-teal">
-    <h1>Calculator</h1>
+  <h1>Calculator</h1>
 </div>
 <div ng-controller="controller" class="w3-container">
-    <div class="w3-container w3-teal">
-    <form name="exprForm" ng-submit="submitForm(exprForm.$valid)" novalidate>
-        Arithmatic expression:
-        <Input type="text" ng-model="expression" required ng-pattern="exprPattern"/>
-        <Input type="submit" ng-click="myFunction()" ng-disabled="exprForm.$invalid"/>
+  <div class="w3-container">
+    <form name="exprForm" ng-submit="submitForm(exprForm.$valid)" novalidate
+          class="w3-container w3-card-4 w3-text-blue w3-margin">
+      <h4 class="w3-left">Single Arithmetic Expression</h4>
+      <div class="w3-row w3-section">
+        <div class="w3-rest">
+          <Input type="text" ng-model="expression" required ng-pattern="exprPattern"
+                 placeholder="57/19" class="w3-input w3-border"/>
+        </div>
+        <Input type="submit" ng-click="myFunction()" ng-disabled="exprForm.$invalid"
+               value="Send Request"/>
+      </div>
     </form>
-    </div>
 
-    <div class="w3-container w3-teal">
-    <form name="batchForm" ng-submit="submitForm(batchForm.$valid)" novalidate>
-        Batch random request:
-        <Input type="number" ng-model="batchSize" ng-max="20" ng-min="2" required/>
-        <Input type="submit" ng-click="sendBatch()" ng-disabled="batchForm.$invalid"/>
+
+    <form name="batchForm" ng-submit="submitForm(batchForm.$valid)" novalidate
+          class="w3-container w3-card-4 w3-text-blue w3-margin">
+      <h4 class="w3-left">Batch random request:</h4>
+      <div class="w3-row w3-section">
+        <div class="w3-rest">
+          <Input type="number" ng-model="batchSize" ng-max="20" ng-min="2" required
+                 class="w3-input w3-border"/>
+        </div>
+        <Input type="submit" ng-click="sendBatch()" ng-disabled="batchForm.$invalid"
+               value="Send Batch"/>
+      </div>
     </form>
-    </div>
+  </div>
 
 
-    <!--h1>{{myVar}}</h1>
-    <h2>{{value3}}</h2>
-    <h3>{{value4}}</h3-->
+  <!--h1>{{myVar}}</h1>
+  <h2>{{value3}}</h2>
+  <h3>{{value4}}</h3-->
+  <div class="w3-container">
+    <div class="w3-container">
 
-    <table class="w3-table-all" style="height:100%">
+      <table class="w3-table-all" style="height:100%">
         <tr>
-            <th>Request</th>
-            <th>Status</th>
-            <th>Response</th>
+          <th>Request</th>
+          <th>Status</th>
+          <th>Response</th>
         </tr>
         <tr ng-repeat="req in requests">
-            <td>{{req.request}}</td>
-            <td>{{req.status}}</td>
-            <td>{{req.answer}}</td>
+          <td>{{req.request}}</td>
+          <td>{{req.status}}</td>
+          <td>{{req.answer}}</td>
         </tr>
-    </table>
-</div>
+      </table>
+    </div>
 
-<div class="w3-container w3-teal">
+  </div>
+
+  <div ng-controller="controller2"></div>
+
+  <!--footer class="w3-container w3-teal">
     <p>Designed by: Hanif Maleki</p>
     <p>hanif.maleki@gmail.com</p>
-</div>
+  </footer-->
 
-<div ng-controller="controller2"></div>
 
 </body>
 </html>
