@@ -19,8 +19,11 @@ In order to execute it locally, it is enough to download the project and run it 
 ```
 gradlew bootRun
 ```
+
 You can see the web user interface in:
+
 http://localhost:8080/
+
 If the Redis server is installed on the non-default *host* or *port*, change the values in __*src/main/resources/application.properties*__
 ```
 spring.redis.host=localhost
@@ -36,4 +39,4 @@ spring.redis.port=6379
 - Hanif Maleki hanif.maleki@gmail.com
 
 ## Licences
-Arithmetic Service is freely distributed under the MIT License. See LICENSE for details.
+Arithmetic Service is freely distributed under the MIT License. 
